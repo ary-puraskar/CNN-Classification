@@ -1,24 +1,12 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # # Convolutional Neural Network
 
 # ### Importing the libraries
-
-# In[1]:
 
 
 get_ipython().system('pip uninstall -y tensorflow tensorflow-cpu tensorflow-intel keras ml-dtypes tensorboard')
 
 
-
-# In[2]:
-
-
 get_ipython().system('pip install tensorflow-intel==2.15.0                keras==2.15.0                ml-dtypes==0.2.0                tensorboard==2.15.0')
-
-
-# In[3]:
 
 
 import tensorflow as tf
@@ -29,14 +17,9 @@ from keras.preprocessing.image import ImageDataGenerator
 
 # ### Preprocessing the Training set
 
-# In[4]:
-
 
 import os
 os.getcwd()
-
-
-# In[24]:
 
 
 train_datagen = ImageDataGenerator(
@@ -54,8 +37,6 @@ training_set = train_datagen.flow_from_directory(
 
 # ### Preprocessing the Test set
 
-# In[25]:
-
 
 test_datagen=ImageDataGenerator(rescale=1./255)
 test_set=test_datagen.flow_from_directory(
@@ -69,32 +50,21 @@ test_set=test_datagen.flow_from_directory(
 
 # ### Initialising the CNN
 
-# In[26]:
-
-
 dl=tf.keras.models.Sequential()
 
 
 # ### Step 1 - Convolution
-
-# In[27]:
-
 
 dl.add(tf.keras.layers.Conv2D(filters=32,kernel_size=3,activation='relu',input_shape=[64,64,3]))
 
 
 # ### Step 2 - Pooling
 
-# In[28]:
-
 
 dl.add(tf.keras.layers.MaxPool2D(pool_size=2,strides=2))
 
 
-# ### Adding a second convolutional layer
-
-# In[29]:
-
+### Adding a second convolutional layer
 
 dl.add(tf.keras.layers.Conv2D(filters=32,kernel_size=3,activation='relu'))
 dl.add(tf.keras.layers.MaxPool2D(pool_size=2,strides=2))
@@ -102,23 +72,17 @@ dl.add(tf.keras.layers.MaxPool2D(pool_size=2,strides=2))
 
 # ### Step 3 - Flattening
 
-# In[30]:
-
 
 dl.add(tf.keras.layers.Flatten())
 
 
 # ### Step 4 - Full Connection
 
-# In[31]:
-
 
 dl.add(tf.keras.layers.Dense(units=128, activation='relu'))
 
 
 # ### Step 5 - Output Layer
-
-# In[32]:
 
 
 dl.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
@@ -128,24 +92,17 @@ dl.add(tf.keras.layers.Dense(units=1, activation='sigmoid'))
 
 # ### Compiling the CNN
 
-# In[35]:
-
 
 dl.compile(optimizer='adam',loss='binary_crossentropy',metrics=['accuracy'])
 
 
 # ### Training the CNN on the Training set and evaluating it on the Test set
 
-# In[36]:
-
 
 dl.fit(x = training_set, validation_data =test_set ,epochs= 25)
 
 
 # ## Part 4 - Making a single prediction
-
-# In[80]:
-
 
 import numpy as np
 from keras.preprocessing import image
